@@ -1,0 +1,17 @@
+User{
+   name: Type(String), required
+   email:Type(String), unique required
+   password:Type(String) , required
+}
+Chat{
+   chatName:Type(String), required
+   group:Type(Boolean) default=false,
+   groupAdmin:Type({ObjectId}) ref=User default=''
+   users:[{ObjectId}] ref:User
+   lastMessage:{ObjectId} ref:Message
+}
+Message{
+   sender:{ObjectId} ref:User
+   chat:{objectId} ref:Chat,
+   content:Type(String)
+}

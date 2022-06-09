@@ -1,0 +1,27 @@
+Client (FRONTEND) -->   /login
+   |                       |
+   |                    /     \
+/signup     token from server  error message
+              (login success)    (login failed)
+                         |             
+                         |
+                    /chatPage 
+                         |
+                   Access chats 
+(Fetch the chatNames of the users from the db with whom the user 
+             has participated in the chats)         
+                    /        \
+       to create a new chat   display the accessed chatnames
+      (search user)          with the latest message if any
+               |                          | 
+       display the user if             message
+       found in the db
+               |
+         on selecting a chat
+               |
+        a chat object is created
+      and stored in the ChatModel of
+      the db if the chatname does not 
+         exists in the db
+               |
+         start messaging

@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&family=Kalam&family=Patrick+Hand&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&family=Kalam&family=Patrick+Hand&family=Ubuntu:wght@300;400&display=swap');
+*{
+    font-family: ubuntu;
+    margin: 0;
+    padding: 0;
+ }
+.Background{
+    /* background-image: url('https://previews.123rf.com/images/annmaysnz/annmaysnz2002/annmaysnz200200097/141437201-pale-light-blue-plain-background-.jpg'); */
+    background-size: cover;
+    height: 100vh;
+    background-image: url('https://wallpaperaccess.com/full/2224368.png');
+}
+.chatBackground{
+    background-image: url("https://i.pinimg.com/736x/8c/98/99/8c98994518b575bfd8c949e91d20548b.jpg");
+}
+.logo{
+    color:white;
+    font-weight:900;
+    font-size:1.8rem
+}
