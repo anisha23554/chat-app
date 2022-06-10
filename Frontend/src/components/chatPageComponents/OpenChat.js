@@ -55,7 +55,8 @@ const OpenChat = (props) => {
     var socket;  
     const connectToSocketIO = ()=>{
       socket = io("http://localhost:4000")
-      socket.emit('user-joined',chat.selectedChat._id)
+      const data = {room:chat.selectedChat._id,username:loggedInUser.name}
+      socket.emit('user-joined',data)
     }
     const createSocket = ()=>{
       socket = io("http://localhost:4000")
@@ -72,8 +73,9 @@ const OpenChat = (props) => {
        const time = today.getHours()+":"+today.getMinutes();
        const message = await sendNewMessage(senderId,chatId,date,time,messageContent)
        createSocket()
-      //  setMessages([...messages,message])
-       socket.emit('send-message',{message:message.content,chatId:chat.selectedChat._id})
+       setMessages([...messages,message])
+       const data = {message:message.content,chatId:chat.selectedChat._id}
+       socket.emit('send-message',data)
        socket.on('recieve-message',msg=>{
          console.log("handling recieve-message event")
          setMessages([...messages,msg])
