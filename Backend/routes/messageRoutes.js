@@ -38,5 +38,4 @@ router.get('/all/:chatId',async(req,res)=>{
     }
 
 })
-
 module.exports = router

@@ -53,10 +53,16 @@ const OpenChat = (props) => {
      }
     }  
     var socket;  
+    const connectToSocketIO = ()=>{
+      socket = io("http://localhost:4000")
+      socket.emit('user-joined',chat.selectedChat._id)
+    }
+    const createSocket = ()=>{
+      socket = io("http://localhost:4000")
+    }
     useEffect(()=>{
        loadMessages()
-       socket = io("http://localhost:4000")
-       socket.emit('user-joined',chat.selectedChat._id)
+       connectToSocketIO()
        },[])
     const sendMessage = async()=>{
        const senderId = loggedInUser._id
@@ -65,11 +71,14 @@ const OpenChat = (props) => {
        const date = today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()
        const time = today.getHours()+":"+today.getMinutes();
        const message = await sendNewMessage(senderId,chatId,date,time,messageContent)
-       await setMessages([...messages,message])
+       createSocket()
+      //  setMessages([...messages,message])
        socket.emit('send-message',{message:message.content,chatId:chat.selectedChat._id})
-       socket.on('recieve-message',message=>{
+       socket.on('recieve-message',msg=>{
+         console.log("handling recieve-message event")
+         setMessages([...messages,msg])
        })
-      }
+      } 
     const closeChat = ()=>{
         dispatch({
             type:'CLOSE_CHAT',
