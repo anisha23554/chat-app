@@ -27,7 +27,6 @@ import { useEffect } from "react";
 import DisplayMessage from "./DisplayMessage";
 import axios from "axios";
 import {io} from 'socket.io-client'
-import { useToast } from "@chakra-ui/react";
 
 const OpenChat = (props) => {
     // props={chat:{}}
@@ -37,6 +36,7 @@ const OpenChat = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [size, setSize] = useState('md')
     const [messages,setMessages] = useState([])
+    const [socketConnection,setsocketConnection] = useState(false) 
 
     const [messageContent,setMessageContent] = useState('')
     const handleSizeClick = (newSize) => {
@@ -52,35 +52,40 @@ const OpenChat = (props) => {
      console.log(error.message)
      }
     }  
-    var socket;  
-    const connectToSocketIO = ()=>{
-      socket = io("http://localhost:4000")
-      const data = {room:chat.selectedChat._id,username:loggedInUser.name}
-      socket.emit('user-joined',data)
-    }
-    const createSocket = ()=>{
-      socket = io("http://localhost:4000")
+    const setupSocket = ()=>{
+      socket=io("http://localhost:4000")
+      const data = {room:chat.selectedChat._id}
+      socket.emit('user-joined-room',data)
+      socket.on('user-joined-success',()=>{
+        setsocketConnection(true)
+      })
     }
     useEffect(()=>{
-       loadMessages()
-       connectToSocketIO()
-       },[])
+      loadMessages()
+      setupSocket()
+    },[]) 
+    var socket;
     const sendMessage = async()=>{
+      //  socket=io('http://localhost:4000')
        const senderId = loggedInUser._id
        const chatId = chat.selectedChat._id
        const today = new Date()
        const date = today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()
        const time = today.getHours()+":"+today.getMinutes();
        const message = await sendNewMessage(senderId,chatId,date,time,messageContent)
-       createSocket()
-       setMessages([...messages,message])
-       const data = {message:message.content,chatId:chat.selectedChat._id}
+       const data = {room:chat.selectedChat._id}
        socket.emit('send-message',data)
-       socket.on('recieve-message',msg=>{
-         console.log("handling recieve-message event")
-         setMessages([...messages,msg])
-       })
+       setMessageContent('')
       } 
+    useEffect(()=>{
+      if(!socketConnection){
+        setupSocket()
+      }
+      console.log(socket)
+      socket.on('recieve-message',()=>{
+        loadMessages()
+      })
+    },[socketConnection]) 
     const closeChat = ()=>{
         dispatch({
             type:'CLOSE_CHAT',

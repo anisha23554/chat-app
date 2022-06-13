@@ -16,6 +16,7 @@
     "react-redux": "^8.0.1",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.0",
+    "react-scroll-to-bottom": "^4.2.0",
     "redux": "^4.2.0",
     "redux-devtools-extension": "^2.13.9",
     "socket.io-client": "^4.5.1",
