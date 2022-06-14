@@ -30,7 +30,7 @@ io.on('connection',socket=>{
     socket.on('user-joined-room',data=>{
          socket.join(data.room)
          console.log(`user joined room: ${data.room}`)
-         socket.emit('user-joined-success')
+        //  socket.emit('user-joined-success')
     })
     // data = {room:chatId}
     socket.on('send-message',data=>{

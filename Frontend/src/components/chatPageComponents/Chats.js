@@ -24,7 +24,7 @@ const Chats = () => {
        <Heading p={4} fontSize={25}>
           Chats
        </Heading>
-       <Flex flexDirection={'column'}>
+       <Flex flexDirection={'column'} overflowY={'scroll'} overflowX={'hidden'}>
           {chat.chats.map(chat=><DisplayChat chat={chat}/>)}
        </Flex>
       </Box>

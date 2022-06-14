@@ -33,7 +33,6 @@ const DisplayChat = (props) => {
     return ( <>
        <Box m={2} p={2} d={'flex'} 
        flexDirection={'column'}
-      //  bg={'white'}
        borderRadius={5}
        bg={'whitesmoke'}
        onClick={accessChat}

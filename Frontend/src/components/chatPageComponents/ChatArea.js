@@ -1,7 +1,7 @@
 import { Heading,Box } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import OpenChat from "./OpenChat";
-import ScrollToBottom from 'react-scroll-to-bottom'
+
 
 const ChatArea = () => {
      const {chat} = useSelector(state=>state)
@@ -14,9 +14,7 @@ const ChatArea = () => {
         boxShadow={'0.5px 0.5px'}>
             {
                chat.chatOpen?
-               <ScrollToBottom>
                  <OpenChat chat={chat.selectedChat} />
-               </ScrollToBottom>
               :<Heading
                textAlign={'center'} color={'gray.400'} 
                mt={200} fontSize={40}
