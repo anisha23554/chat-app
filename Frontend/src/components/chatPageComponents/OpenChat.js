@@ -1,11 +1,9 @@
 import { Heading ,
-  Box,
   Flex,
-  Avatar,
   MenuButton,
   Menu,
   MenuList,
-  MenuItem,
+  MenuItem, 
   IconButton,
   Modal,
   useDisclosure,
@@ -13,8 +11,7 @@ import { Heading ,
   ModalBody,
   ModalCloseButton,
   Input,
-  Button,
-  toast
+  Button
 } from "@chakra-ui/react";
 import {HamburgerIcon} from "@chakra-ui/icons"
 import { useSelector } from "react-redux";
@@ -36,8 +33,6 @@ const dispatch = useDispatch()
 const { isOpen, onOpen, onClose } = useDisclosure()
 const [size, setSize] = useState('md')
 const [messages,setMessages] = useState([])
-const [handleSocketEvent,sethandleSocketEvent] = useState(false)
-// const [socketConnection,setsocketConnection] = useState(false) 
 var socket;
 const [messageContent,setMessageContent] = useState('')
 const handleSizeClick = (newSize) => {
@@ -57,18 +52,16 @@ const setupSocket = ()=>{
 socket=io("http://localhost:4000")
 const data = {room:chat.selectedChat._id}
 socket.emit('user-joined-room',data)
-// socket.on('user-joined-success',()=>{
-//   setsocketConnection(true)
-// })
 }
-// console.log(socketConnection)
 useEffect(()=>{
  loadMessages()
  setupSocket()
 },[]) 
-const sendMessage = async(e)=>{
+const sendMessage = async()=>{
+  if(!socket){
+    setupSocket()
+  }
 console.log(socket)
-//  console.log(socketConnection)
 const senderId = loggedInUser._id
 const chatId = chat.selectedChat._id
 const today = new Date()
@@ -79,15 +72,12 @@ const data = {room:chat.selectedChat._id}
 socket.emit('send-message',data)
 setMessageContent('')
 } 
-// useEffect(()=>{
-//   if(!socketConnection){
-//     setupSocket()
-//   }
-//   // socket.on('recieve-message',()=>{
-//   //   loadMessages()
-//   // })
-// },[socketConnection])
-
+if(!socket){
+  setupSocket()
+}
+socket.on('recieve-message',()=>{
+  loadMessages()
+})
 
 const closeChat = ()=>{
  dispatch({
